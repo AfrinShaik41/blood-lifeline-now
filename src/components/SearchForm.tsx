@@ -1,16 +1,9 @@
-<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
-=======
-import { useState } from "react";
->>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
 import { Search, MapPin, Droplets } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import BloodGroupBadge from "./BloodGroupBadge";
-<<<<<<< HEAD
 import { useFilters } from "@/hooks/useFilters";
-=======
->>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
 
 const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
@@ -20,65 +13,48 @@ interface SearchFormProps {
 }
 
 const SearchForm = ({ onSearch, variant = "hero" }: SearchFormProps) => {
-<<<<<<< HEAD
   // Use filters hook with local storage persistence
   const { city, bloodGroup, setCity, setBloodGroup } = useFilters();
-  
-  // Use local state for location input (city is stored, but location might be more specific)
-  const [location, setLocation] = useState(city);
-  
-  // Sync location input with stored city on mount
+
+  // Local state for inputs
+  const [selectedBloodGroup, setSelectedBloodGroup] = useState<string>(bloodGroup || "");
+  const [location, setLocation] = useState<string>(city || "");
+
+  // Sync local state with stored filters
   useEffect(() => {
-    if (city) {
-      setLocation(city);
-    }
-  }, [city]);
+    if (bloodGroup) setSelectedBloodGroup(bloodGroup);
+    if (city) setLocation(city);
+  }, [bloodGroup, city]);
 
   const handleSearch = () => {
-    // Update stored filters when searching
-    if (location) {
-      setCity(location);
-    }
-    if (bloodGroup) {
-      setBloodGroup(bloodGroup);
-    }
-    
-    if (onSearch) {
-      onSearch(bloodGroup, location);
-    }
-  };
-  
-  const handleBloodGroupChange = (group: string) => {
-    setBloodGroup(group);
-  };
-  
-  const handleLocationChange = (newLocation: string) => {
-    setLocation(newLocation);
-  };
-=======
-  const [selectedBloodGroup, setSelectedBloodGroup] = useState<string>("");
-  const [location, setLocation] = useState("");
+    // Update persisted filters
+    setBloodGroup(selectedBloodGroup);
+    setCity(location);
 
-  const handleSearch = () => {
     if (onSearch) {
       onSearch(selectedBloodGroup, location);
     }
   };
->>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
 
+  const handleBloodGroupClick = (group: string) => {
+    setSelectedBloodGroup(group);
+    setBloodGroup(group);
+  };
+
+  const handleLocationChange = (newLocation: string) => {
+    setLocation(newLocation);
+    setCity(newLocation);
+  };
+
+  // Compact variant
   if (variant === "compact") {
     return (
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="relative flex-1">
           <Droplets className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
           <select
-<<<<<<< HEAD
-            value={bloodGroup}
-            onChange={(e) => handleBloodGroupChange(e.target.value)}
-=======
             value={selectedBloodGroup}
-            onChange={(e) => setSelectedBloodGroup(e.target.value)}
->>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
+            onChange={(e) => handleBloodGroupClick(e.target.value)}
             className="w-full h-11 pl-10 pr-4 rounded-lg border border-input bg-background text-foreground focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
           >
             <option value="">Blood Group</option>
@@ -95,11 +71,7 @@ const SearchForm = ({ onSearch, variant = "hero" }: SearchFormProps) => {
             type="text"
             placeholder="Enter city or area"
             value={location}
-<<<<<<< HEAD
             onChange={(e) => handleLocationChange(e.target.value)}
-=======
-            onChange={(e) => setLocation(e.target.value)}
->>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
             className="pl-10 h-11"
           />
         </div>
@@ -111,6 +83,7 @@ const SearchForm = ({ onSearch, variant = "hero" }: SearchFormProps) => {
     );
   }
 
+  // Hero / default variant
   return (
     <div className="bg-card rounded-3xl p-6 md:p-8 shadow-card border border-border">
       {/* Blood Group Selection */}
@@ -124,13 +97,8 @@ const SearchForm = ({ onSearch, variant = "hero" }: SearchFormProps) => {
               key={group}
               bloodGroup={group}
               interactive
-<<<<<<< HEAD
-              selected={bloodGroup === group}
-              onClick={() => handleBloodGroupChange(group)}
-=======
               selected={selectedBloodGroup === group}
-              onClick={() => setSelectedBloodGroup(group)}
->>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
+              onClick={() => handleBloodGroupClick(group)}
             />
           ))}
         </div>
@@ -147,11 +115,7 @@ const SearchForm = ({ onSearch, variant = "hero" }: SearchFormProps) => {
             type="text"
             placeholder="City, area, or pin code"
             value={location}
-<<<<<<< HEAD
             onChange={(e) => handleLocationChange(e.target.value)}
-=======
-            onChange={(e) => setLocation(e.target.value)}
->>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
             className="pl-12 h-14 text-lg rounded-xl"
           />
           <button className="absolute right-3 top-1/2 -translate-y-1/2 text-primary text-sm font-medium hover:underline">

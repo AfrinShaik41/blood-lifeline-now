@@ -7,17 +7,12 @@ import BloodBankCard from "@/components/BloodBankCard";
 import StatusBadge from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
 import Chatbot from "@/components/Chatbot";
-<<<<<<< HEAD
+
 import { useFilters } from "@/hooks/useFilters";
 
 const allBloodBanks = [
   {
     id: "bb-001",
-=======
-
-const allBloodBanks = [
-  {
->>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
     name: "City Central Blood Bank",
     address: "123 Main Road, Sector 15, New Delhi",
     distance: "1.2 km",
@@ -36,10 +31,7 @@ const allBloodBanks = [
     ],
   },
   {
-<<<<<<< HEAD
     id: "bb-002",
-=======
->>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
     name: "Red Cross Society Blood Center",
     address: "456 Park Avenue, Connaught Place, New Delhi",
     distance: "2.8 km",
@@ -58,10 +50,7 @@ const allBloodBanks = [
     ],
   },
   {
-<<<<<<< HEAD
     id: "bb-003",
-=======
->>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
     name: "Apollo Hospital Blood Bank",
     address: "789 Hospital Road, Saket, New Delhi",
     distance: "4.5 km",
@@ -80,10 +69,7 @@ const allBloodBanks = [
     ],
   },
   {
-<<<<<<< HEAD
     id: "bb-004",
-=======
->>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
     name: "Government Blood Bank",
     address: "12 Civil Lines, Central Delhi",
     distance: "5.1 km",
@@ -102,10 +88,7 @@ const allBloodBanks = [
     ],
   },
   {
-<<<<<<< HEAD
     id: "bb-005",
-=======
->>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
     name: "Fortis Healthcare Blood Center",
     address: "34 Vasant Kunj, South Delhi",
     distance: "7.3 km",
@@ -127,24 +110,16 @@ const allBloodBanks = [
 
 const Search = () => {
   const [viewMode, setViewMode] = useState<"list" | "map">("list");
-<<<<<<< HEAD
-  // Use filters hook to get persisted city and blood group
   const { city, bloodGroup } = useFilters();
-  
+
   const handleSearch = (selectedBloodGroup: string, location: string) => {
-    // Search logic can be implemented here
-    // Filters are automatically persisted via useFilters hook
     console.log("Searching for:", selectedBloodGroup, location);
   };
-=======
-  const [selectedBloodGroup, setSelectedBloodGroup] = useState<string>("");
->>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
 
-      {/* Search Header */}
       <section className="pt-24 pb-8 bg-secondary/30 border-b border-border">
         <div className="container mx-auto px-4">
           <h1 className="font-heading font-bold text-3xl text-foreground mb-6">
@@ -154,10 +129,8 @@ const Search = () => {
         </div>
       </section>
 
-      {/* Results */}
       <section className="py-8">
         <div className="container mx-auto px-4">
-          {/* Toolbar */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
             <div className="flex items-center gap-2 text-muted-foreground">
               <MapPin className="w-4 h-4" />
@@ -174,21 +147,13 @@ const Search = () => {
               <div className="flex rounded-lg border border-border overflow-hidden">
                 <button
                   onClick={() => setViewMode("list")}
-                  className={`p-2 ${
-                    viewMode === "list"
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-card text-muted-foreground hover:text-foreground"
-                  }`}
+                  className={`p-2 ${viewMode === "list" ? "bg-primary text-primary-foreground" : "bg-card text-muted-foreground hover:text-foreground"}`}
                 >
                   <List className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => setViewMode("map")}
-                  className={`p-2 ${
-                    viewMode === "map"
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-card text-muted-foreground hover:text-foreground"
-                  }`}
+                  className={`p-2 ${viewMode === "map" ? "bg-primary text-primary-foreground" : "bg-card text-muted-foreground hover:text-foreground"}`}
                 >
                   <MapIcon className="w-4 h-4" />
                 </button>
@@ -196,7 +161,6 @@ const Search = () => {
             </div>
           </div>
 
-          {/* Status Legend */}
           <div className="flex flex-wrap items-center gap-4 mb-6 p-4 bg-card rounded-xl border border-border">
             <span className="text-sm font-medium text-foreground">Availability:</span>
             <StatusBadge status="available" />
@@ -204,11 +168,10 @@ const Search = () => {
             <StatusBadge status="unavailable" />
           </div>
 
-          {/* Results Grid */}
           {viewMode === "list" ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {allBloodBanks.map((bank) => (
-                <BloodBankCard key={bank.name} {...bank} />
+                <BloodBankCard key={bank.id} {...bank} />
               ))}
             </div>
           ) : (

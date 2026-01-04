@@ -1,25 +1,4 @@
 import { useState, useEffect, createContext, useContext, ReactNode } from "react";
-<<<<<<< HEAD
-import { 
-  User as FirebaseUser, 
-  onAuthStateChanged, 
-  signInWithEmailAndPassword, 
-  createUserWithEmailAndPassword,
-  signOut as firebaseSignOut,
-  AuthError
-} from "firebase/auth";
-import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
-import { auth, db } from "@/integrations/firebase/firebase";
-import { userStorage } from "@/lib/localStorage";
-
-// User role type - supports donor and blood_bank (as per requirements)
-// Also supports admin for existing functionality
-type AppRole = "donor" | "blood_bank" | "admin" | null;
-
-interface AuthContextType {
-  user: FirebaseUser | null;
-  session: FirebaseUser | null; // For compatibility, using user as session
-=======
 import { User, Session } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
@@ -29,7 +8,6 @@ type AppRole = Database["public"]["Enums"]["app_role"];
 interface AuthContextType {
   user: User | null;
   session: Session | null;
->>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
   role: AppRole | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
@@ -40,190 +18,6 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-<<<<<<< HEAD
-  const [user, setUser] = useState<FirebaseUser | null>(null);
-  const [session, setSession] = useState<FirebaseUser | null>(null);
-  const [role, setRole] = useState<AppRole | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  // Fetch user role from Firestore
-  // Roles are stored in the 'users' collection with document ID = userId
-  const fetchUserRole = async (userId: string): Promise<AppRole> => {
-    try {
-      const userDocRef = doc(db, "users", userId);
-      const userDocSnap = await getDoc(userDocRef);
-      
-      if (userDocSnap.exists()) {
-        const userData = userDocSnap.data();
-        return (userData.role as AppRole) || null;
-      }
-      return null;
-    } catch (error) {
-      console.error("Error fetching user role from Firestore:", error);
-      return null;
-    }
-  };
-
-  // Store user role in Firestore after signup
-  // Creates a document in 'users' collection with userId as document ID
-  const storeUserRole = async (userId: string, role: AppRole, fullName: string, email: string) => {
-    try {
-      const userDocRef = doc(db, "users", userId);
-      await setDoc(userDocRef, {
-        role: role,
-        fullName: fullName,
-        email: email,
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-      }, { merge: true });
-    } catch (error) {
-      console.error("Error storing user role in Firestore:", error);
-      throw error;
-    }
-  };
-
-  // Set up Firebase auth state listener
-  // Firebase automatically handles auth state persistence using localStorage
-  // We also sync user ID and role to our custom local storage for quick access
-  useEffect(() => {
-    // Try to restore session from local storage on initial load
-    // This provides faster initial render while Firebase auth initializes
-    const storedUserId = userStorage.getUserId();
-    const storedRole = userStorage.getRole();
-    
-    if (storedUserId && storedRole) {
-      // Set initial state from local storage for faster UI update
-      // Firebase will verify and update this when auth state is ready
-      setRole(storedRole);
-    }
-
-    // onAuthStateChanged automatically handles:
-    // - Initial auth state check
-    // - Auth state changes (login, logout, token refresh)
-    // - Persistence across page reloads
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      setUser(firebaseUser);
-      setSession(firebaseUser); // For compatibility with existing code
-
-      if (firebaseUser) {
-        // User is signed in, fetch their role from Firestore
-        const userRole = await fetchUserRole(firebaseUser.uid);
-        setRole(userRole);
-        
-        // Sync user ID and role to local storage
-        // This allows quick access on app reload without waiting for Firebase
-        userStorage.set(firebaseUser.uid, userRole);
-      } else {
-        // User is signed out
-        setRole(null);
-        
-        // Clear user session from local storage
-        userStorage.clear();
-      }
-      
-      setLoading(false);
-    });
-
-    // Cleanup subscription on unmount
-    return () => unsubscribe();
-  }, []);
-
-  // Sign in with email and password
-  const signIn = async (email: string, password: string) => {
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      // Auth state will be updated automatically via onAuthStateChanged
-      return { error: null };
-    } catch (error) {
-      const authError = error as AuthError;
-      // Return user-friendly error message
-      let errorMessage = "Failed to sign in. Please check your credentials.";
-      
-      switch (authError.code) {
-        case "auth/user-not-found":
-          errorMessage = "No account found with this email address.";
-          break;
-        case "auth/wrong-password":
-          errorMessage = "Incorrect password. Please try again.";
-          break;
-        case "auth/invalid-email":
-          errorMessage = "Invalid email address.";
-          break;
-        case "auth/user-disabled":
-          errorMessage = "This account has been disabled.";
-          break;
-        case "auth/too-many-requests":
-          errorMessage = "Too many failed attempts. Please try again later.";
-          break;
-        case "auth/network-request-failed":
-          errorMessage = "Network error. Please check your connection.";
-          break;
-      }
-      
-      return { error: new Error(errorMessage) };
-    }
-  };
-
-  // Sign up with email and password
-  // After successful signup, stores user role in Firestore
-  const signUp = async (email: string, password: string, fullName: string, role: AppRole) => {
-    if (!role) {
-      return { error: new Error("Please select a user type.") };
-    }
-
-    try {
-      // Create user account with Firebase Auth
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const newUser = userCredential.user;
-
-      // Store user role and profile data in Firestore
-      await storeUserRole(newUser.uid, role, fullName, email);
-
-      // Auth state will be updated automatically via onAuthStateChanged
-      return { error: null };
-    } catch (error) {
-      const authError = error as AuthError;
-      // Return user-friendly error message
-      let errorMessage = "Failed to create account. Please try again.";
-      
-      switch (authError.code) {
-        case "auth/email-already-in-use":
-          errorMessage = "An account with this email already exists.";
-          break;
-        case "auth/invalid-email":
-          errorMessage = "Invalid email address.";
-          break;
-        case "auth/operation-not-allowed":
-          errorMessage = "Email/password accounts are not enabled.";
-          break;
-        case "auth/weak-password":
-          errorMessage = "Password is too weak. Please use a stronger password.";
-          break;
-        case "auth/network-request-failed":
-          errorMessage = "Network error. Please check your connection.";
-          break;
-      }
-      
-      return { error: new Error(errorMessage) };
-    }
-  };
-
-  // Sign out user
-  const signOut = async () => {
-    try {
-      await firebaseSignOut(auth);
-      // Auth state will be updated automatically via onAuthStateChanged
-      setUser(null);
-      setSession(null);
-      setRole(null);
-      
-      // Clear user session from local storage
-      userStorage.clear();
-    } catch (error) {
-      console.error("Error signing out:", error);
-      throw error;
-    }
-=======
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [role, setRole] = useState<AppRole | null>(null);
@@ -244,60 +38,44 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    // Set up auth state listener FIRST
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
+    // Listen for auth state changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setSession(session);
+      setUser(session?.user ?? null);
 
-        // Defer role fetch with setTimeout to prevent deadlock
-        if (session?.user) {
-          setTimeout(() => {
-            fetchUserRole(session.user.id).then(setRole);
-          }, 0);
-        } else {
-          setRole(null);
-        }
+      if (session?.user) {
+        fetchUserRole(session.user.id).then(setRole);
+      } else {
+        setRole(null);
       }
-    );
+    });
 
-    // THEN check for existing session
+    // Check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
-        fetchUserRole(session.user.id).then((role) => {
-          setRole(role);
-          setLoading(false);
-        });
-      } else {
-        setLoading(false);
+        fetchUserRole(session.user.id).then((role) => setRole(role));
       }
+      setLoading(false);
     });
 
     return () => subscription.unsubscribe();
   }, []);
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
     return { error: error as Error | null };
   };
 
   const signUp = async (email: string, password: string, fullName: string, role: AppRole) => {
     const redirectUrl = `${window.location.origin}/`;
-    
     const { error } = await supabase.auth.signUp({
       email,
       password,
       options: {
         emailRedirectTo: redirectUrl,
-        data: {
-          full_name: fullName,
-          role: role,
-        },
+        data: { full_name: fullName, role },
       },
     });
     return { error: error as Error | null };
@@ -308,7 +86,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(null);
     setSession(null);
     setRole(null);
->>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
   };
 
   return (
@@ -320,8 +97,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
+  if (!context) throw new Error("useAuth must be used within an AuthProvider");
   return context;
 };
