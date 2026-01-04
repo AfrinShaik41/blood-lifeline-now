@@ -1,19 +1,30 @@
+<<<<<<< HEAD
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+=======
+import { useState } from "react";
+import { Link } from "react-router-dom";
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
 import { User, Mail, Lock, Heart, Building2, Users } from "lucide-react";
 import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+<<<<<<< HEAD
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 
 // User role type
 type UserType = "donor" | "blood_bank" | null;
+=======
+
+type UserType = "donor" | "bloodbank" | null;
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
 
 const Login = () => {
   const [userType, setUserType] = useState<UserType>(null);
   const [isLogin, setIsLogin] = useState(true);
+<<<<<<< HEAD
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
@@ -106,6 +117,8 @@ const Login = () => {
       </div>
     );
   }
+=======
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
 
   return (
     <div className="min-h-screen bg-background">
@@ -114,6 +127,10 @@ const Login = () => {
       <section className="pt-28 pb-16">
         <div className="container mx-auto px-4">
           <div className="max-w-md mx-auto">
+<<<<<<< HEAD
+=======
+            {/* Logo */}
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
             <div className="text-center mb-8">
               <Heart className="w-12 h-12 text-primary mx-auto mb-3 heartbeat" fill="currentColor" />
               <h1 className="font-heading font-bold text-2xl text-foreground">
@@ -124,6 +141,10 @@ const Login = () => {
               </p>
             </div>
 
+<<<<<<< HEAD
+=======
+            {/* User Type Selection */}
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
             {!userType ? (
               <div className="bg-card rounded-3xl border border-border p-8 shadow-card">
                 <h2 className="font-heading font-bold text-lg text-center text-foreground mb-6">
@@ -148,7 +169,11 @@ const Login = () => {
                   </button>
 
                   <button
+<<<<<<< HEAD
                     onClick={() => setUserType("blood_bank")}
+=======
+                    onClick={() => setUserType("bloodbank")}
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
                     className="w-full p-4 rounded-xl border-2 border-border hover:border-primary bg-secondary/30 hover:bg-primary/5 transition-all flex items-center gap-4 group"
                   >
                     <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
@@ -167,6 +192,10 @@ const Login = () => {
               </div>
             ) : (
               <div className="bg-card rounded-3xl border border-border p-8 shadow-card">
+<<<<<<< HEAD
+=======
+                {/* Back Button */}
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
                 <button
                   onClick={() => setUserType(null)}
                   className="text-muted-foreground hover:text-foreground text-sm mb-6 flex items-center gap-1"
@@ -174,6 +203,10 @@ const Login = () => {
                   ← Choose different type
                 </button>
 
+<<<<<<< HEAD
+=======
+                {/* Form Header */}
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
                 <div className="text-center mb-6">
                   {userType === "donor" ? (
                     <Users className="w-10 h-10 text-primary mx-auto mb-2" />
@@ -186,7 +219,12 @@ const Login = () => {
                   </h2>
                 </div>
 
+<<<<<<< HEAD
                 <form onSubmit={handleSubmit} className="space-y-4">
+=======
+                {/* Form */}
+                <form className="space-y-4">
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
                   {!isLogin && (
                     <div>
                       <Label htmlFor="name" className="text-foreground">
@@ -199,9 +237,12 @@ const Login = () => {
                           type="text"
                           placeholder={userType === "donor" ? "John Doe" : "City Blood Bank"}
                           className="pl-10"
+<<<<<<< HEAD
                           value={fullName}
                           onChange={(e) => setFullName(e.target.value)}
                           required
+=======
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
                         />
                       </div>
                     </div>
@@ -218,9 +259,12 @@ const Login = () => {
                         type="email"
                         placeholder="you@example.com"
                         className="pl-10"
+<<<<<<< HEAD
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
+=======
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
                       />
                     </div>
                   </div>
@@ -236,10 +280,13 @@ const Login = () => {
                         type="password"
                         placeholder="••••••••"
                         className="pl-10"
+<<<<<<< HEAD
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
                         minLength={6}
+=======
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
                       />
                     </div>
                   </div>
@@ -252,6 +299,7 @@ const Login = () => {
                     </div>
                   )}
 
+<<<<<<< HEAD
                   <Button
                     variant="hero"
                     size="lg"
@@ -273,6 +321,18 @@ const Login = () => {
                       setPassword("");
                       setFullName("");
                     }}
+=======
+                  <Button variant="hero" size="lg" className="w-full">
+                    {isLogin ? "Sign In" : "Create Account"}
+                  </Button>
+                </form>
+
+                {/* Toggle */}
+                <p className="text-center text-muted-foreground text-sm mt-6">
+                  {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
+                  <button
+                    onClick={() => setIsLogin(!isLogin)}
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
                     className="text-primary font-medium hover:underline"
                   >
                     {isLogin ? "Sign Up" : "Sign In"}
@@ -281,6 +341,10 @@ const Login = () => {
               </div>
             )}
 
+<<<<<<< HEAD
+=======
+            {/* Emergency Link */}
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
             <p className="text-center text-muted-foreground text-sm mt-8">
               Need blood urgently?{" "}
               <Link to="/emergency" className="text-emergency font-medium hover:underline">

@@ -2,7 +2,10 @@ import { MapPin, Phone, Clock, Navigation, Shield, ExternalLink } from "lucide-r
 import { Button } from "@/components/ui/button";
 import StatusBadge from "./StatusBadge";
 import BloodGroupBadge from "./BloodGroupBadge";
+<<<<<<< HEAD
 import BloodBankQRCode from "./BloodBankQRCode";
+=======
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
 
 interface BloodStock {
   group: string;
@@ -10,7 +13,10 @@ interface BloodStock {
 }
 
 interface BloodBankCardProps {
+<<<<<<< HEAD
   id?: string; // Blood bank ID for QR code generation
+=======
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
   name: string;
   address: string;
   distance: string;
@@ -23,7 +29,10 @@ interface BloodBankCardProps {
 }
 
 const BloodBankCard = ({
+<<<<<<< HEAD
   id,
+=======
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
   name,
   address,
   distance,
@@ -81,6 +90,7 @@ const BloodBankCard = ({
           <span>Updated {lastUpdated}</span>
         </div>
         <div className="flex items-center gap-2">
+<<<<<<< HEAD
           {/* QR Code - Only shown for verified blood banks */}
           {id && (
             <BloodBankQRCode 
@@ -89,6 +99,8 @@ const BloodBankCard = ({
               isVerified={isVerified} 
             />
           )}
+=======
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
           <Button
             variant="ghost"
             size="sm"

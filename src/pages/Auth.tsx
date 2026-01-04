@@ -1,17 +1,28 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+<<<<<<< HEAD
 import { Heart, Mail, Lock, User, Users, Building2 } from "lucide-react";
+=======
+import { Heart, Mail, Lock, User, Users, Building2, Shield } from "lucide-react";
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
 import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
+<<<<<<< HEAD
 
 // User role type - only Donor and Blood Bank for public signup
 // Admin role should not be available for public signup
 type AppRole = "donor" | "blood_bank";
 type UserType = "donor" | "blood_bank" | null;
+=======
+import type { Database } from "@/integrations/supabase/types";
+
+type AppRole = Database["public"]["Enums"]["app_role"];
+type UserType = "donor" | "blood_bank" | "admin" | null;
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
 
 const Auth = () => {
   const [userType, setUserType] = useState<UserType>(null);
@@ -75,7 +86,11 @@ const Auth = () => {
         } else {
           toast({
             title: "Account Created!",
+<<<<<<< HEAD
             description: "Your account has been created successfully. You are now logged in.",
+=======
+            description: "Please check your email to confirm your account, or you may be logged in automatically.",
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
           });
         }
       }
@@ -96,6 +111,11 @@ const Auth = () => {
         return <Users className="w-10 h-10 text-primary mx-auto mb-2" />;
       case "blood_bank":
         return <Building2 className="w-10 h-10 text-primary mx-auto mb-2" />;
+<<<<<<< HEAD
+=======
+      case "admin":
+        return <Shield className="w-10 h-10 text-primary mx-auto mb-2" />;
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
       default:
         return null;
     }
@@ -107,6 +127,11 @@ const Auth = () => {
         return "Donor";
       case "blood_bank":
         return "Blood Bank";
+<<<<<<< HEAD
+=======
+      case "admin":
+        return "Admin";
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
       default:
         return "";
     }
@@ -170,6 +195,22 @@ const Auth = () => {
                       <p className="text-sm text-muted-foreground">Manage inventory</p>
                     </div>
                   </button>
+<<<<<<< HEAD
+=======
+
+                  <button
+                    onClick={() => setUserType("admin")}
+                    className="w-full p-4 rounded-xl border-2 border-border hover:border-primary bg-secondary/30 hover:bg-primary/5 transition-all flex items-center gap-4 group"
+                  >
+                    <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                      <Shield className="w-7 h-7 text-primary" />
+                    </div>
+                    <div className="text-left">
+                      <h3 className="font-heading font-bold text-foreground">Administrator</h3>
+                      <p className="text-sm text-muted-foreground">Manage the platform</p>
+                    </div>
+                  </button>
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
                 </div>
 
                 <p className="text-center text-muted-foreground text-sm mt-6">
@@ -194,9 +235,15 @@ const Auth = () => {
                 {/* Form Header */}
                 <div className="text-center mb-6">
                   {!isLogin && getUserTypeIcon()}
+<<<<<<< HEAD
                   {isLogin && (
                     <Heart className="w-10 h-10 text-primary mx-auto mb-2" />
                   )}
+=======
+                  {isLogin ? (
+                    <Shield className="w-10 h-10 text-primary mx-auto mb-2" />
+                  ) : null}
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
                   <h2 className="font-heading font-bold text-xl text-foreground">
                     {isLogin ? "Sign In" : `${getUserTypeLabel()} Sign Up`}
                   </h2>

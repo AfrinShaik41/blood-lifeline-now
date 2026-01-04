@@ -28,7 +28,10 @@ const emergencyContacts = [
 
 const nearestBloodBanks = [
   {
+<<<<<<< HEAD
     id: "bb-001",
+=======
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
     name: "City Central Blood Bank",
     address: "123 Main Road, Sector 15, New Delhi",
     distance: "1.2 km",
@@ -47,7 +50,10 @@ const nearestBloodBanks = [
     ],
   },
   {
+<<<<<<< HEAD
     id: "bb-002",
+=======
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
     name: "Red Cross Society Blood Center",
     address: "456 Park Avenue, Connaught Place, New Delhi",
     distance: "2.8 km",

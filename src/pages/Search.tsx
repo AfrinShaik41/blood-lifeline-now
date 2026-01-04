@@ -7,11 +7,17 @@ import BloodBankCard from "@/components/BloodBankCard";
 import StatusBadge from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
 import Chatbot from "@/components/Chatbot";
+<<<<<<< HEAD
 import { useFilters } from "@/hooks/useFilters";
 
 const allBloodBanks = [
   {
     id: "bb-001",
+=======
+
+const allBloodBanks = [
+  {
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
     name: "City Central Blood Bank",
     address: "123 Main Road, Sector 15, New Delhi",
     distance: "1.2 km",
@@ -30,7 +36,10 @@ const allBloodBanks = [
     ],
   },
   {
+<<<<<<< HEAD
     id: "bb-002",
+=======
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
     name: "Red Cross Society Blood Center",
     address: "456 Park Avenue, Connaught Place, New Delhi",
     distance: "2.8 km",
@@ -49,7 +58,10 @@ const allBloodBanks = [
     ],
   },
   {
+<<<<<<< HEAD
     id: "bb-003",
+=======
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
     name: "Apollo Hospital Blood Bank",
     address: "789 Hospital Road, Saket, New Delhi",
     distance: "4.5 km",
@@ -68,7 +80,10 @@ const allBloodBanks = [
     ],
   },
   {
+<<<<<<< HEAD
     id: "bb-004",
+=======
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
     name: "Government Blood Bank",
     address: "12 Civil Lines, Central Delhi",
     distance: "5.1 km",
@@ -87,7 +102,10 @@ const allBloodBanks = [
     ],
   },
   {
+<<<<<<< HEAD
     id: "bb-005",
+=======
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
     name: "Fortis Healthcare Blood Center",
     address: "34 Vasant Kunj, South Delhi",
     distance: "7.3 km",
@@ -109,6 +127,7 @@ const allBloodBanks = [
 
 const Search = () => {
   const [viewMode, setViewMode] = useState<"list" | "map">("list");
+<<<<<<< HEAD
   // Use filters hook to get persisted city and blood group
   const { city, bloodGroup } = useFilters();
   
@@ -117,6 +136,9 @@ const Search = () => {
     // Filters are automatically persisted via useFilters hook
     console.log("Searching for:", selectedBloodGroup, location);
   };
+=======
+  const [selectedBloodGroup, setSelectedBloodGroup] = useState<string>("");
+>>>>>>> 7cccfe0ae5813190e82df5b88e8ef7521683e014
 
   return (
     <div className="min-h-screen bg-background">
